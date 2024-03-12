@@ -52,9 +52,9 @@ def user_input(user_question):
 
 st.set_page_config("Ask your PDF", page_icon=":books:")
 st.header("Chat with PDF using Gemini AI")
-user_key = st.text_input("Enter your Gemini API Key")
+google_api_key = st.text_input("Enter your Gemini API Key")
 if st.button("Submit Key"):
-    genai.configure(api_key=user_key)
+    genai.configure(api_key=google_api_key)
 
 pdf_docs = st.file_uploader("Drop your files here", accept_multiple_files=True)
 if st.button("Submit Files"):

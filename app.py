@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 from PyPDF2 import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
@@ -11,8 +12,9 @@ from langchain.prompts import PromptTemplate
 st.set_page_config("Ask your PDF", page_icon=":books:")
 st.header("Chat with PDF using Gemini AI")
 google_api_key = st.text_input("Enter your Gemini API Key")
+os.environ["GOOGLE_API_KEY"] = google_api_key
 if st.button("Submit Key"):
-    genai.configure(api_key=google_api_key)
+    genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def get_pdf_text(pdf_docs):
     text=""

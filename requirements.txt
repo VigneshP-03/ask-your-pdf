@@ -1,0 +1,6 @@
+streamlit
+google-generativeai
+langchain==0.1.0
+PyPDF2
+faiss-cpu==1.7.3
+langchain_google_genai

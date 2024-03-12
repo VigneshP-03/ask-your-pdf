@@ -8,6 +8,11 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
 
+st.set_page_config("Ask your PDF", page_icon=":books:")
+st.header("Chat with PDF using Gemini AI")
+google_api_key = st.text_input("Enter your Gemini API Key")
+if st.button("Submit Key"):
+    genai.configure(api_key=google_api_key)
 
 def get_pdf_text(pdf_docs):
     text=""
@@ -49,12 +54,6 @@ def user_input(user_question):
     response = chain({"input_documents":docs, "question": user_question}, return_only_outputs=True)
     print(response)
     st.write(response["output_text"])
-
-st.set_page_config("Ask your PDF", page_icon=":books:")
-st.header("Chat with PDF using Gemini AI")
-google_api_key = st.text_input("Enter your Gemini API Key")
-if st.button("Submit Key"):
-    genai.configure(api_key=google_api_key)
 
 pdf_docs = st.file_uploader("Drop your files here", accept_multiple_files=True)
 if st.button("Submit Files"):

@@ -54,8 +54,11 @@ def user_input(user_question):
     docs = new_db.similarity_search(user_question)
     chain = get_conversational_chain()
     response = chain({"input_documents":docs, "question": user_question}, return_only_outputs=True)
-    print(response)
-    st.write(response["output_text"])
+    return response
+    # st.write(response["output_text"])
+
+def clear_chat_history():
+    st.session_state.messages = [{"role": "assistant", "content": "Ask me about the PDFs you uploaded"}]
 
 pdf_docs = st.file_uploader("Drop your files here", accept_multiple_files=True)
 if st.button("Submit Files"):
@@ -64,8 +67,29 @@ if st.button("Submit Files"):
         text_chunks = get_text_chunks(raw_text)
         get_vector_store(text_chunks)
         st.success("Done")
-        st.write("You can now ask your questions")
 
-user_question = st.text_input("Ask a Question from the PDF Files")
-if st.button("Ask"):
-    user_input(user_question)
+if "messages" not in st.session_state.keys():
+    st.session_state.messages = [{"role": "assistant", "content": "Ask me about the PDFs you uploaded"}]
+
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
+
+if prompt := st.chat_input():
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.write(prompt)
+
+if st.session_state.messages[-1]["role"] != "assistant":
+    with st.chat_message("assistant"):
+        with st.spinner("Thinking..."):
+            response = user_input(prompt)
+            placeholder = st.empty()
+            full_response = ''
+            for item in response['output_text']:
+                full_response += item
+                placeholder.markdown(full_response)
+            placeholder.markdown(full_response)
+    if response is not None:
+        message = {"role": "assistant", "content": full_response}
+        st.session_state.messages.append(message)

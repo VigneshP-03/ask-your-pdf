@@ -6,7 +6,7 @@ A single-page web application built using Streamlit library in Python that allow
 
 To run this project, please follow the steps below:
 
-1. Clone the repository:
+1. Clone the repository and navigate inside the project directory:
 
 ```shell
 git clone https://github.com/VigneshP-03/ask-your-pdf.git

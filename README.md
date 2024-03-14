@@ -19,7 +19,6 @@ cd ask-your-pdf
 python3 -m venv venv
 cd venv
 Scripts\activate
-cd ..
 ```
 
 3. Install the dependencies from the `requirements.txt` file:
